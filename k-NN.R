@@ -1,0 +1,16 @@
+rm(list=ls())
+library(caret)
+library(class)
+str(serviceTrainData)
+serviceTrainData$Service=as.factor(serviceTrainData$Service)
+str(serviceTrainData)
+serviceTestData$Service=as.factor(serviceTestData$Service)
+str(serviceTestData)
+summary(serviceTrainData)
+predictknn<-knn(serviceTrainData[,-6],serviceTestData[,-6],cl=serviceTrainData$Service,k=3)
+predictknn
+confmatrix<-table(predictknn,serviceTestData[,6])
+confmatrix
+acc=sum(diag(confmatrix))/nrow(serviceTestData)
+acc
+confusionMatrix(predictknn,serviceTestData$Service)
